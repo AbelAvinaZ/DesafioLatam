@@ -1,0 +1,24 @@
+
+body.style {
+    background-color: grey;
+}
+
+div.card {
+    background-color: #f3c99a;
+}
+
+.experienciaLaboral {
+    padding-bottom: auto;
+}
+
+.educacion {
+    padding-bottom: auto;
+}
+
+.capturas {
+    width: 40%;
+}
+
+table.table {
+    text-align: center;
+}
