@@ -1,12 +1,15 @@
 .header {
     height: 5em;
     padding: 8em;
-    width: 80%;
     background-image: url("../imgs/villahermosa-tabasco-flickr.webp");
     background-size: cover;
     background-position: center;
     color: white;
     font-weight: 900;
+}
+
+.header h1 {
+    margin: 0px;
 }
 
 .products {
@@ -16,17 +19,18 @@
 
 .products td {
 width: 50%;
-margin: auto;
+padding: 2em;
 }
 
 .products img {
-    width: 50%;
+    width: 80%;
     border: solid 1px bisque;
 }
 
 .footer {
-    height: 2em;
+    height: 3em;
+    line-height: 3em;
     background-color: rgb(4, 175, 4);
     color: white;
-    font-weight: 800;
+    font-weight: 900;
 }

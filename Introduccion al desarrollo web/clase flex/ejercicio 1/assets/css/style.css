@@ -1,0 +1,13 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.container div {
+    width: 33%;
+}
+
+.box img {
+    max-width: 100%;
+}
