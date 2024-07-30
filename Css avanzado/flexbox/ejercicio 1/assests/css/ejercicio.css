@@ -1,0 +1,18 @@
+body {
+    margin: 0;
+}
+
+.hero {
+    display: flex;
+    height: 945px;
+    background-image: url("../img/bg-header.jpg");
+    background-size: cover;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.content {
+    color: white;
+    width: 50%;
+    text-align: center;
+}
