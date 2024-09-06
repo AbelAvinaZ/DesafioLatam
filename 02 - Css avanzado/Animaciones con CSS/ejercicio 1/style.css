@@ -1,0 +1,11 @@
+a {
+    color: red;
+    transition: all 0.8s ease-in-out 0.2s;
+}
+
+a:hover {
+    color: blue;
+    text-transform: capitalize;
+    font-weight: bolder;
+    font-size: larger;
+}

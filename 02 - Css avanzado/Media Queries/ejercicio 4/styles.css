@@ -1,0 +1,38 @@
+nav {
+    padding: 10px;
+    grid-area: menu;
+    background: rgb(0, 26, 255);
+    color: white;
+}
+
+main {
+    grid-area: main;
+    padding: 10px;
+}
+
+footer {
+    padding: 10px;
+    grid-area: footer;
+    background: red;
+    color: white;
+}
+
+.grid {
+    border: solid 1px black;
+    display: grid;
+    grid-template-rows: 1fr 10fr 1fr;
+    grid-template-areas: 
+    "menu"
+    "main"
+    "footer";
+}
+
+@media (min-width: 992px) {
+    .grid {
+        grid-template-areas: 
+        "menu main"
+        "menu main"
+        "menu footer";
+        grid-template-columns: 1fr 10fr;
+    }
+}

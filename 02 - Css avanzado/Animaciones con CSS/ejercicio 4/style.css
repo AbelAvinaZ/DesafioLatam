@@ -1,0 +1,36 @@
+.main {
+    margin-top: 5rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.box {
+    width: 100px;
+    height: 150px;
+    background-color: red;
+    position: absolute;
+    transition: all ease 4s;
+}
+
+.box:hover {
+    transform: rotate(360deg);
+}
+
+img {
+    width: 50%;
+    transition: all .5s ease-in-out;
+}
+
+img:hover {
+    scale: 2;
+    /* width: 100%; */
+}
+
+h1 {
+    transition: all linear 1s;
+}
+
+h1:hover {
+    transform: translateX(40px);
+}

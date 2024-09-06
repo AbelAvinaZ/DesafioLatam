@@ -1,0 +1,50 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+.grid-container {
+    display: grid;
+    grid-template-areas:
+        "header header header"
+        "principal principal principal"
+        "lateral main ads"
+        "footer footer footer";
+        grid-template-columns: 1fr 8fr 1fr;
+}
+
+.header {
+    grid-area: header;
+    height: 5vh;
+}
+
+.principal {
+    grid-area: principal;
+    height: 10vh;
+}
+
+.lateral {
+    grid-area: lateral;
+    height: 80vh;
+}
+
+.main {
+    grid-area: main;
+    height: 80vh;
+}
+
+.ads {
+    grid-area: ads;
+    height: 80vh;
+}
+
+.footer {
+    grid-area: footer;
+    height: 5vh;
+}
+
+.box {
+    border: solid 1px black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

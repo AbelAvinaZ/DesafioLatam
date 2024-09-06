@@ -1,0 +1,23 @@
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box {
+    width: 100px;
+    height: 100px;
+    animation: colorear 2s ease infinite alternate;
+}
+
+@keyframes colorear {
+    0% {
+        background-color: green;
+    }
+    50% {
+        background-color: orange;
+    }
+    100% {
+        background-color: blue;
+    }
+}

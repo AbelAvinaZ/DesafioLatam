@@ -1,0 +1,11 @@
+@media (min-width: 576px) {
+    p {
+        font-family: 'Courier New', Courier, monospace;
+    }
+}
+
+@media (max-width: 576px) {
+    p {
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+}

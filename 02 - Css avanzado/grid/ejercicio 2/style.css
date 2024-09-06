@@ -1,0 +1,14 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: 40% 1fr;
+    gap: 20px;
+}
+
+.grid-item {
+    border: solid 1px grey;
+}
+
+.grid-item img {
+    width: 100%;
+    height: 100%;
+}

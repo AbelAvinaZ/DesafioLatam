@@ -1,0 +1,18 @@
+.box1 {
+    background-color: red;
+    width: 100px;
+    height: 100px;
+    transform: rotate(45deg);
+}
+
+.box2 {
+    background-color: red;
+    width: 100px;
+    height: 100px;
+    transform: rotate(30deg);
+    transition: all 4ms ease-in-out 2ms;
+}
+
+.box2:hover {
+    transform: scale(2);
+}

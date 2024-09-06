@@ -1,0 +1,14 @@
+
+body {
+    margin: 0px;
+}
+
+.caracteristicas {
+    text-align: center;
+    background-color: grey;
+}
+
+.flex {
+    display: flex;
+    gap: 20px;
+}
