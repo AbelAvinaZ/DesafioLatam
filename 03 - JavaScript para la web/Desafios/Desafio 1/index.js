@@ -11,7 +11,7 @@ function sumaProducto() {
     precio += 400000;
     cantidad += 1;
     cantidadProducto.innerHTML = cantidad;
-    let total = 400000 * cantidad;
+    total = 400000 * cantidad;
     totalPago.innerHTML = total;
 };
 
@@ -22,7 +22,7 @@ function restaProducto() {
         precio -= 400000;
         cantidad -= 1;
         cantidadProducto.innerHTML = cantidad;
-        let total = 400000 * cantidad;
+        total = 400000 * cantidad;
         totalPago.innerHTML = total;
     }
 }
