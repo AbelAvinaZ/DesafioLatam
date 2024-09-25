@@ -1,0 +1,51 @@
+body {
+    display: flex;
+}
+
+.primero {
+    width: 200px;
+    height: 200px;
+}
+
+#a {
+    background-color: blue;
+}
+
+#b {
+    background-color: red;
+}
+
+#c {
+    background-color: green;
+}
+
+#d {
+    background-color: yellow;
+}
+
+#key {
+    border: 2px solid black;
+    width: 200px;
+    height: 200px;
+}
+
+.q {
+    border: 2px solid black;
+    width: 200px;
+    height: 200px;
+    background-color: grey;
+}
+
+.w {
+    border: 2px solid black;
+    width: 200px;
+    height: 200px;
+    background-color: purple;
+}
+
+.e {
+    border: 2px solid black;
+    width: 200px;
+    height: 200px;
+    background-color: brown;
+}
