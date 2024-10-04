@@ -1,0 +1,24 @@
+* {
+    font-family: "Hind Madurai", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.encabezado {
+    background-image: url(../img/img-main.jpeg);
+    height: 20rem;
+    background-size: cover;
+    background-position: center;
+    padding: 8rem;
+}
+
+.cardImg {
+    object-fit: cover;
+    height: 15rem;
+    margin-top: 1rem;
+}
+
+.cardDiv {
+    width: 18rem;
+    margin: 2rem 1rem;
+}
