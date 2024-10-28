@@ -9,7 +9,11 @@ export function agregarTarea(e) {
 
     // se agrega al arreglo "tareas" un id y una "tarea" con el valor del input
     if (tarea) { // Validación para no agregar tareas vacías
-        const nuevaTarea = { id: Date.now(), nuevaTarea: tarea, completada: false };
+        const nuevaTarea = {
+            id: Date.now(),
+            nuevaTarea: tarea,
+            completada: false
+        };
         tareas.push(nuevaTarea);
         tareaInput.value = "";
         imprimirTareas();
@@ -41,8 +45,8 @@ export function imprimirTareas() {
             <td><input class="form-check-input check" type="checkbox" data-id="${tarea.id}" ${tarea.completada ? "checked" : ""}></td>
             <td><button class="btn btn-danger borrar-tarea" data-id="${tarea.id}"> X </button></td>
         </tr>
-    `).join(""); 
-// join("") Une todas esas cadenas en una sola cadena continua, sin ningún separador entre ellas. Esto resulta en un bloque de HTML que se puede insertar directamente en innerHTML
+    `).join("");
+    // join("") Une todas esas cadenas en una sola cadena continua, sin ningún separador entre ellas. Esto resulta en un bloque de HTML que se puede insertar directamente en innerHTML
 
     actualizarContador(); // Actualiza el contador al imprimir tareas
 }
