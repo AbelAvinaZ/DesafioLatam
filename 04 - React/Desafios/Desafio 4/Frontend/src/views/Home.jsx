@@ -31,7 +31,7 @@ export const Home = () => {
 
         // llamamos la fn que consume la API al momento de montar el componente
         consultApi();
-    }, []);
+    }, [pizzaData]);
 
 
 

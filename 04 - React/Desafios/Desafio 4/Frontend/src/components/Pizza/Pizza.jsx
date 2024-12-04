@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import formattedTotal from "../utils/utility";
+import formattedTotal from "../../utils/utility";
 
 
 
 export const Pizza = () => {
 
-    const [pizza, setPizza] = useState([]);
+    const [pizza, setPizza] = useState(null);
 
     useEffect(() => {
         const consultAPI = async () => {
@@ -19,9 +19,13 @@ export const Pizza = () => {
         consultAPI();
     }, []);
 
+    // Manejo de estado inicial
+    if (!pizza) {
+        return <p className="text-center">Cargando pizza...</p>; // Mensaje de carga mientras esperas la respuesta
+    }
+
 
     return (
-
 
         <div className="flex bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 text-center">
             <a href="#">
