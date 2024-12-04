@@ -10,23 +10,28 @@ export const Home = () => {
 
         // consultamos la api dentro del ue 
         const consultApi = async () => {
-            const url = "http://localhost:5000/api/pizzas";
-            const response = await fetch(url);
-            const data = await response.json();
-            console.log(data);
-            
-            // extraemos la informacion de la api
-            const selectedPizzas = data.map((pizza) => ({
-                name: pizza.name,
-                key: pizza.id,
-                desc: pizza.desc,
-                img: pizza.img,
-                price: pizza.price,
-                ingredients: pizza.ingredients,
-            }))
+            try {
+
+                const url = "http://localhost:5000/api/pizzas";
+                const response = await fetch(url);
+                const data = await response.json();
+                console.log(data);
+
+                // extraemos la informacion de la api
+                const selectedPizzas = data.map((pizza) => ({
+                    name: pizza.name,
+                    key: pizza.id,
+                    desc: pizza.desc,
+                    img: pizza.img,
+                    price: pizza.price,
+                    ingredients: pizza.ingredients,
+                }))
+                setPizzaData(selectedPizzas);
+            } catch (error) {
+                console.log(error)
+            }
 
             // actualizamos el estado con los datos de las pizzas
-            setPizzaData(selectedPizzas);
         }
 
         // llamamos la fn que consume la API al momento de montar el componente

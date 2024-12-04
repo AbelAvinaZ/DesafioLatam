@@ -9,12 +9,18 @@ export const Pizza = () => {
 
     useEffect(() => {
         const consultAPI = async () => {
-            const url = "http://localhost:5000/api/pizzas/p001";
-            const response = await fetch(url);
-            const data = await response.json();
-            console.log(data);
-            // extraemos la informacion de la api
-            setPizza(data);
+            try {
+                const url = "http://localhost:5000/api/pizzas/p001";
+                const response = await fetch(url);
+                const data = await response.json();
+                console.log(data);
+                // extraemos la informacion de la api
+                setPizza(data);
+            }
+
+            catch (error) {
+                console.log(error)
+            }
         }
         consultAPI();
     }, []);
