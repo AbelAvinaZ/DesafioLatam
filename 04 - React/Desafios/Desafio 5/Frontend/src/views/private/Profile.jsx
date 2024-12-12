@@ -2,7 +2,7 @@
 
 export const Profile = () => {
     return (
-        <div className="relative flex flex-col w-full min-w-0 mb-6 break-words border border-dashed bg-clip-border rounded-2xl border-stone-200 bg-light/30 draggable">
+        <div className="relative flex flex-col min-h-screen w-full min-w-0 mb-6 break-words border border-dashed bg-clip-border rounded-2xl border-stone-200 bg-light/30 draggable">
             {/* <!-- card body --> */}
             <div className="px-9 pt-9 flex-auto min-h-[70px] pb-0 bg-transparent">
                 <div className="flex flex-wrap mb-6 xl:flex-nowrap">

@@ -21,6 +21,7 @@ export const Home = () => {
                 const selectedPizzas = data.map((pizza) => ({
                     name: pizza.name,
                     key: pizza.id,
+                    id: pizza.id,
                     desc: pizza.desc,
                     img: pizza.img,
                     price: pizza.price,
@@ -45,10 +46,11 @@ export const Home = () => {
             {pizzaData.map((pizza) => (
                 <CardPizza
                     key={pizza.id}
+                    id={pizza.id}
                     desc={pizza.desc}
                     img={pizza.img}
                     price={pizza.price}
-                    name={pizza.name.toUpperCase()}
+                    name={pizza.name}
                     ingredients={pizza.ingredients}
                 />
             ))}
