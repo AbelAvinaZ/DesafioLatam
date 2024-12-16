@@ -1,29 +1,21 @@
-// import { useContext, useState } from "react";
+import { useContext } from "react";
 import formattedTotal from "../../utils/utility";
 import { useNavigate } from "react-router";
-// import { CartContext } from "../../context/CartContext";
+import { CartContext } from "../../context/CartContext";
 
 
 export default function CardPizza({ desc, img, ingredients, name, price, id }) {
-
-
-    // const { pizzaCart, setPizzaCart } = useContext(CartContext);
-    // // agregamos el formato del carrito en un estado
-    // const [cart, setCart] = useState({
-    //     name: "",
-    //     img: "",
-    //     price: "",
-    // });
-
-    // // agregamos un handle que permita agregar la pizza al carrito
-    // const handleAddPizza = (e) => {
-    //     e.preventDefault();
-    //     setPizzaCart([...pizzaCart, cart]);
-    //     alert("Pizza agregada");
-    // };
-
+    // se toma la fn addPizzaToCart del cartContext
+    const { addPizzaToCart } = useContext(CartContext);
     // sirve para navegar dentro de las paginas
     const navigate = useNavigate();
+
+
+    const handleAddPizza = () => {
+        addPizzaToCart({ id, name, img, price });
+        alert("Pizza agregada al carrito!");
+    };
+
     // Sirve para checar cada una de las opciones de la API
     const handleReadMore = () => {
         navigate(`/pizza/${id}`)
@@ -56,7 +48,7 @@ export default function CardPizza({ desc, img, ingredients, name, price, id }) {
                     Read more ➡️
                 </button>
                 <button
-                    // onClick={handleAddPizza}
+                    onClick={handleAddPizza}
                     className="text-white bg-gray-800 hover:bg-gray-900  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 mx-10"
                 >
                     Add 🛒

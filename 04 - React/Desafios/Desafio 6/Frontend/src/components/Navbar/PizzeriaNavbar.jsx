@@ -1,14 +1,14 @@
-// import { useState } from 'react';
 import { Link } from "react-router";
 import "./PizzeriaNavbar.css";
 import formattedTotal from "../../utils/utility";
+import { useContext } from "react";
+import { CartContext } from "../../context/CartContext";
 
 export default function PizzeriaNavbar() {
-    // const [isLoggedIn, setIsLoggedIn] = useState(false);
-    // //este es para simular que si le da iniciar sesion entraria a la sesion y cambiaria a cerrar sesion
-    // const logIn = () => setIsLoggedIn(!isLoggedIn);
+    const { pizzaCart } = useContext(CartContext);
 
-    const total = 25000;
+    // usamos reduce para llevar la sumatoria del precio de las pizzas
+    const total = pizzaCart.reduce((acc, pizza) => acc + pizza.price * pizza.count, 0);
 
 
     return (
@@ -31,7 +31,6 @@ export default function PizzeriaNavbar() {
                             to="/profile"
                             className="text-white bg-green-700 hover:bg-green-800 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
                         >
-                            {/* {isLoggedIn ? "Register 🔑" : "Profile 🙍"} */}
                             Profile 🙍
 
                         </Link>
@@ -40,7 +39,6 @@ export default function PizzeriaNavbar() {
                             /*onClick={logIn}*/
                             className="text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
                         >
-                            {/* {isLoggedIn ? "Login 🔑" : "Logout 🔐"} */}
                             Logout 🔐
                         </Link>
                     </div>

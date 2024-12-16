@@ -1,15 +1,19 @@
-import { Route, Routes } from "react-router"
-import routes from '../routes/routes'
+import { useRoutes } from "react-router"
+import { PizzaProvider } from "./context/PizzaContext";
+import CartProvider from "./context/CartContext";
+
+import routes from "../routes/Routes";
 
 function App() {
+  const AppRoutes = () => useRoutes(routes);
 
   return (
-    <Routes>
-      {routes.map(({ path, element }) => (
-        <Route key={path} path={path} element={element} />
-      ))}
-    </Routes>
-  )
+    <PizzaProvider>
+      <CartProvider>
+        <AppRoutes />
+      </CartProvider>
+    </PizzaProvider>
+  );
 }
 
 export default App

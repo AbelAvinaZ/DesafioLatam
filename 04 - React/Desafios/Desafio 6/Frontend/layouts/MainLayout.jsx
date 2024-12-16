@@ -7,7 +7,7 @@ export const MainLayout = ({ children }) => {
     return (
         <div className="h-screen flex flex-col justify-between">
             <PizzeriaNavbar />
-            {children}
+            <main className="flex-grow">{children}</main>
             <Footer />
         </div>
     );

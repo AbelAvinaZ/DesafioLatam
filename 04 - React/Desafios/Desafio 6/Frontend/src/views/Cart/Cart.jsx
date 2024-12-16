@@ -1,37 +1,13 @@
-import { useState } from "react";
-import { pizzaCart } from "../../data/pizzasData";
 import formattedTotal from "../../utils/utility";
+import { useContext } from "react";
+import { CartContext } from "../../context/CartContext";
 
 export const Cart = () => {
 
-    // declaramos estados
-    const [cart, setCart] = useState(pizzaCart);
-
-
-    // Función para incrementar la cantidad de un ítem
-    const handleIncrement = (id) => { //buscamos el item con el id especifico y aumenta su contador
-        setCart(cart.map((pizza) =>
-            pizza.id === id
-                ? { ...pizza, count: pizza.count + 1 }
-                : pizza
-        ));
-    };
-
-
-    // Función para decrementar la cantidad de un ítem y eliminar el div si llega a 0
-    const handleDecrement = (id) => {
-        setCart(cart.map((pizza) =>
-            pizza.id === id
-                ? { ...pizza, count: pizza.count - 1 }
-                : pizza
-        )
-            .filter((pizza) => pizza.count > 0) // Elimina el ítem si su contador es 0
-        );
-    };
-
+    const { pizzaCart, addPizzaToCart, removePizzaFromCart, decreasePizzaFromCart } = useContext(CartContext);
 
     // Calcular el total de la orden
-    const orderTotal = cart.reduce((total, pizza) => total + pizza.price * pizza.count, 0);
+    const orderTotal = pizzaCart.reduce((total, pizza) => total + pizza.price * pizza.count, 0);
 
 
     return (
@@ -42,7 +18,7 @@ export const Cart = () => {
                 <div className="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
                     <div className="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
                         <div className="space-y-6">
-                            {cart.map((pizza) => (
+                            {pizzaCart.map((pizza) => (
                                 <div key={pizza.id} className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm md:p-6">
                                     <div className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
                                         <a href="#" className="shrink-0 md:order-1">
@@ -52,7 +28,7 @@ export const Cart = () => {
                                             <div className="flex items-center">
                                                 <button
                                                     type="button"
-                                                    onClick={() => handleDecrement(pizza.id)}
+                                                    onClick={() => decreasePizzaFromCart(pizza.id)}
                                                     className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200">
                                                     ➖
                                                 </button>
@@ -64,7 +40,7 @@ export const Cart = () => {
                                                 />
                                                 <button
                                                     type="button"
-                                                    onClick={() => handleIncrement(pizza.id)}
+                                                    onClick={() => addPizzaToCart(pizza)}
                                                     className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200"
                                                 >
                                                     ➕
@@ -87,7 +63,11 @@ export const Cart = () => {
                                                     ♥️ Add to Favorites
                                                 </button>
 
-                                                <button type="button" className="inline-flex items-center text-sm font-medium text-red-600 hover:underline">
+                                                <button
+                                                    onClick={() => removePizzaFromCart(pizza.id)}
+                                                    type="button"
+                                                    className="inline-flex items-center text-sm font-medium text-red-600 hover:underline"
+                                                >
                                                     ❌ Remove
                                                 </button>
                                             </div>

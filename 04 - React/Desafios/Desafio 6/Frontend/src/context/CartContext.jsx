@@ -21,6 +21,17 @@ const CartProvider = ({ children }) => {
         });
     };
 
+    // Función para decrementar la cantidad de un ítem y eliminar el div si llega a 0
+    const decreasePizzaFromCart = (id) => {
+        setPizzaCart((prevCart) =>
+          prevCart
+            .map((pizza) =>
+              pizza.id === id ? { ...pizza, count: pizza.count - 1 } : pizza
+            )
+            .filter((pizza) => pizza.count > 0)
+        );
+      };
+
     // Función para eliminar una pizza
     const removePizzaFromCart = (id) => {
         setPizzaCart((prevCart) =>
@@ -34,6 +45,7 @@ const CartProvider = ({ children }) => {
                 pizzaCart,
                 addPizzaToCart,
                 removePizzaFromCart,
+                decreasePizzaFromCart,
             }}
         >
             {children}
