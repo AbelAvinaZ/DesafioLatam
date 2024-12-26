@@ -1,9 +1,11 @@
 import formattedTotal from "../../utils/utility";
 import { useContext } from "react";
 import { CartContext } from "../../context/CartContext";
+import { UserContext } from "../../context/UserContext";
 
 export const Cart = () => {
 
+    const { user } = useContext(UserContext);
     const { pizzaCart, addPizzaToCart, removePizzaFromCart, decreasePizzaFromCart } = useContext(CartContext);
 
     // Calcular el total de la orden
@@ -86,14 +88,23 @@ export const Cart = () => {
                                     <dd className="text-base font-bold text-gray-900">{formattedTotal(orderTotal)}</dd>
                                 </dl>
                             </div>
-                            <a href="#" className="flex w-full items-center justify-center rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800">
+                            <button
+                                disabled={!user}
+                                className={user ?
+                                    "flex w-full items-center justify-center rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800"
+                                    :
+                                    "flex w-full items-center justify-center rounded-lg bg-gray-700 px-5 py-2.5 text-sm font-medium text-white"
+                                }
+                            >
                                 Proceed to Checkout
-                            </a>
+                            </button>
                             <div className="flex items-center justify-center gap-2">
                                 <span className="text-sm font-normal text-gray-500"> or </span>
-                                <a href="#" title="" className="inline-flex items-center gap-2 text-sm font-medium text-primary-700 underline hover:no-underline">
+                                <button
+                                    className="inline-flex items-center gap-2 text-sm font-medium text-primary-700 underline hover:no-underline"
+                                >
                                     Continue Shopping ➡️
-                                </a>
+                                </button>
                             </div>
                         </div>
                     </div>

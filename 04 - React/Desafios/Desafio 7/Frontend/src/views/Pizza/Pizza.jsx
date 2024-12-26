@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import formattedTotal from "../../utils/utility";
 import { useContext } from "react";
 import { CartContext } from "../../context/CartContext";
+import axios from "axios";
 
 
 
@@ -18,8 +19,8 @@ export const Pizza = () => {
         const consultAPI = async () => {
             try {
                 const url = `http://localhost:5000/api/pizzas/${id}`;
-                const response = await fetch(url);
-                const data = await response.json();
+                const response = await axios.get(url);
+                const data = response.data;
                 console.log(data);
                 // extraemos la informacion de la api
                 setPizza(data);
@@ -34,7 +35,7 @@ export const Pizza = () => {
 
     // Manejo de estado inicial
     if (!pizza) {
-        return <p className="text-center">Loading pizza...</p>; // Mensaje de carga mientras esperas la respuesta
+        return <p className="text-center">Loading pizza...</p>;
     }
 
 
