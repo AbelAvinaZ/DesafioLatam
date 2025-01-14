@@ -1,6 +1,54 @@
-
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router"
+import axios from "axios";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 export const Profile = () => {
+    const navigate = useNavigate();
+
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+
+        const getData = async () => {
+            try {
+                const res = await axios.get("http://localhost:5000/api/auth/me",
+                    {
+                        method: "GET",  //can erase the method, its already explicit in the axios
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`
+                        },
+                        body: JSON.stringify({
+                            cart: carrito,
+                        })
+                    });
+                setUser(res.data);
+            } catch (error) {
+                if (error.response?.status === 401) {
+                    alert("Acceso no válido. Por favor, inicia sesión.");
+                    navigate("/login");
+                } else {
+                    console.error("Error al obtener los datos del usuario:", error);
+                }
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (token) {
+            getData();
+        } else {
+            alert("Token no encontrado. Por favor, inicia sesión.");
+            navigate("/login");
+        }
+    }, [navigate]);
+
+    if (loading)
+        return <LoadingSpinner />
+
     return (
         <div className="relative flex flex-col min-h-screen w-full min-w-0 mb-6 break-words border border-dashed bg-clip-border rounded-2xl border-stone-200 bg-light/30 draggable">
             {/* <!-- card body --> */}
@@ -29,7 +77,7 @@ export const Profile = () => {
                                     <a className="flex items-center mb-2 mr-5 text-secondary-dark hover:text-blue" href="javascript:void(0)">
                                         <span className="mr-1">
                                             ✉️
-                                        </span> contact@example.com </a>
+                                        </span> {user.email} </a>
                                 </div>
                             </div>
                             <div className="flex flex-wrap my-auto">

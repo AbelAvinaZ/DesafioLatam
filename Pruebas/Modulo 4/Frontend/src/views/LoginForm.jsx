@@ -1,9 +1,12 @@
 import { useState } from 'react';
-import { Link } from 'react-router';
-
+import { Link, useNavigate } from 'react-router';
+import axios from 'axios';
 
 
 export default function LoginForm() {
+    // navigate hook
+    const navigate = useNavigate();
+
     //form states
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -13,9 +16,36 @@ export default function LoginForm() {
     const [errorMessage, setErrorMessage] = useState("");
     const [success, setSuccess] = useState(false);
 
+
+
+
     // Function to validate form before submitting
-    const registerValidation = (e) => {
+    const registerValidation = async (e) => {
         e.preventDefault();
+
+        try {
+            const res = await axios.post("http://localhost:5000/api/auth/login", {
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                // we make strings the object
+                body: JSON.stringify({
+                    email,
+                    password,
+                })
+            });
+            const data = await res.json();
+
+            if (data.token && data.token !== "") {
+                localStorage.setItem("token", data.token);
+                navigate("/profile");
+            } else {
+                alert("Datos no válidos");
+            }
+        } catch (e) {
+            console.log(e)
+        }
+
 
         // Validate fields
         if (!email.trim() || !password.trim()) {
