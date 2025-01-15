@@ -1,12 +1,45 @@
 import formattedTotal from "../../utils/utility";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { CartContext } from "../../context/CartContext";
 import { UserContext } from "../../context/UserContext";
+import axios from "axios";
+import { Link } from "react-router";
 
 export const Cart = () => {
 
     const { user } = useContext(UserContext);
-    const { pizzaCart, addPizzaToCart, removePizzaFromCart, decreasePizzaFromCart } = useContext(CartContext);
+    const { pizzaCart, clearCart, addPizzaToCart, removePizzaFromCart, decreasePizzaFromCart, } = useContext(CartContext);
+
+
+    //fn to show a success msg when completing the buying
+    const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
+
+    const proceedToCheckout = async () => {
+        const token = localStorage.getItem("token");
+        if (!token) return alert("Please login to checkout.");
+
+        try {
+            const res = await axios.post(
+                "http://localhost:5000/api/checkouts",
+                { cart: pizzaCart, user: { email: user.email } },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            if (res.status === 200) {
+                setIsSuccessModalVisible(true); // Muestra el modal en caso de éxito
+                clearCart(); //if you proceed, it will clean the cart
+                localStorage.removeItem(`cart_${user.email}`); //same but from the session
+            }
+        } catch (e) {
+            console.error("Error en el checkout:", e);
+            alert("Checkout fallido.");
+        }
+    };
 
     // Calcular el total de la orden
     const orderTotal = pizzaCart.reduce((total, pizza) => total + pizza.price * pizza.count, 0);
@@ -95,22 +128,38 @@ export const Cart = () => {
                                     :
                                     "flex w-full items-center justify-center rounded-lg bg-gray-700 px-5 py-2.5 text-sm font-medium text-white"
                                 }
+                                onClick={proceedToCheckout}
                             >
                                 Proceed to Checkout
                             </button>
                             <div className="flex items-center justify-center gap-2">
                                 <span className="text-sm font-normal text-gray-500"> or </span>
-                                <button
+                                <Link
+                                    to="/"
                                     className="inline-flex items-center gap-2 text-sm font-medium text-primary-700 underline hover:no-underline"
                                 >
                                     Continue Shopping ➡️
-                                </button>
+                                </Link>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
+            {/* Modal de éxito */}
+            {isSuccessModalVisible && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                    <div className="bg-white rounded-lg p-6 text-center space-y-4 shadow-lg">
+                        <h2 className="text-2xl font-bold text-green-600">Checkout Successful!</h2>
+                        <p className="text-gray-600">Your order has been placed successfully.</p>
+                        <button
+                            className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+                            onClick={() => setIsSuccessModalVisible(false)}
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
         </section>
     );
 }

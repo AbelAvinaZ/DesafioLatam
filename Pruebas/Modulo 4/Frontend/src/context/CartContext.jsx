@@ -1,10 +1,21 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 // creamos el context
 export const CartContext = createContext();
 // proveedor del context
 const CartProvider = ({ children }) => {
     const [pizzaCart, setPizzaCart] = useState([]);
+
+    // Cargar el carrito del localStorage al iniciar
+    useEffect(() => {
+        const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+        setPizzaCart(storedCart);
+    }, []);
+
+    // Guardar el carrito en localStorage cada vez que cambia
+    useEffect(() => {
+        localStorage.setItem("cart", JSON.stringify(pizzaCart));
+    }, [pizzaCart]);
 
     // Función para agregar una pizza
     const addPizzaToCart = (pizza) => {
@@ -24,13 +35,13 @@ const CartProvider = ({ children }) => {
     // Función para decrementar la cantidad de un ítem y eliminar el div si llega a 0
     const decreasePizzaFromCart = (id) => {
         setPizzaCart((prevCart) =>
-          prevCart
-            .map((pizza) =>
-              pizza.id === id ? { ...pizza, count: pizza.count - 1 } : pizza
-            )
-            .filter((pizza) => pizza.count > 0)
+            prevCart
+                .map((pizza) =>
+                    pizza.id === id ? { ...pizza, count: pizza.count - 1 } : pizza
+                )
+                .filter((pizza) => pizza.count > 0)
         );
-      };
+    };
 
     // Función para eliminar una pizza
     const removePizzaFromCart = (id) => {
@@ -39,6 +50,26 @@ const CartProvider = ({ children }) => {
         );
     };
 
+    // limpiar carrito
+    const clearCart = () => {
+        setPizzaCart([]);
+        localStorage.removeItem("cart"); // Limpia el carrito global
+    };
+
+    // guardar carrito para la sesion
+    const saveCartForUser = (email) => {
+        if (email) {
+            localStorage.setItem(`cart_${email}`, JSON.stringify(pizzaCart));
+        }
+    };
+
+    // cargar carrito para la sesion
+    const loadCartForUser = (email) => {
+        const storedCart = JSON.parse(localStorage.getItem(`cart_${email}`)) || [];
+        setPizzaCart(storedCart);
+    };
+
+
     return (
         <CartContext.Provider
             value={{
@@ -46,6 +77,9 @@ const CartProvider = ({ children }) => {
                 addPizzaToCart,
                 removePizzaFromCart,
                 decreasePizzaFromCart,
+                clearCart,
+                saveCartForUser,
+                loadCartForUser,
             }}
         >
             {children}

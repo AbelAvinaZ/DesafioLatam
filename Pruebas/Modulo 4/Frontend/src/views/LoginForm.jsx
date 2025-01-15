@@ -1,54 +1,31 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
-import axios from 'axios';
+import { UserContext } from '../context/UserContext';
+import useInput from '../hooks/UseInput';
 
 
 export default function LoginForm() {
     // navigate hook
     const navigate = useNavigate();
 
-    //form states
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    // login from usercontext
+    const { login } = useContext(UserContext);
+
+    // Form states with custom hook
+    const email = useInput("");
+    const password = useInput("");
 
     //error and success state
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-    const [success, setSuccess] = useState(false);
-
-
 
 
     // Function to validate form before submitting
-    const registerValidation = async (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
 
-        try {
-            const res = await axios.post("http://localhost:5000/api/auth/login", {
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                // we make strings the object
-                body: JSON.stringify({
-                    email,
-                    password,
-                })
-            });
-            const data = await res.json();
-
-            if (data.token && data.token !== "") {
-                localStorage.setItem("token", data.token);
-                navigate("/profile");
-            } else {
-                alert("Datos no válidos");
-            }
-        } catch (e) {
-            console.log(e)
-        }
-
-
         // Validate fields
-        if (!email.trim() || !password.trim()) {
+        if (!email.value.trim() || !password.value.trim()) {
             setError(true);
             setErrorMessage("All fields are obligatory! 🚫");
             hideErrorAfterDelay();
@@ -63,18 +40,15 @@ export default function LoginForm() {
             return;
         }
 
-        // If all validations pass
-        setSuccess(true);
-        setError(false);
-        console.log("Form submitted successfully!");
-        clearForm(); // Optionally clear the form after success
-        hideSuccessAfterDelay();
-    };
-
-    // Function to clear form fields
-    const clearForm = () => {
-        setEmail("");
-        setPassword("");
+        try {
+            await login(email, password);
+            navigate("/profile");
+        } catch (e) {
+            setError(true);
+            setErrorMessage(error.message || "Invalid credentials. Please try again.");
+            hideErrorAfterDelay();
+            console.error(e)
+        }
     };
 
     // Function to hide error after a delay
@@ -85,12 +59,6 @@ export default function LoginForm() {
         }, 3000); // 3 seconds
     };
 
-    // Function to hide success message after a delay
-    const hideSuccessAfterDelay = () => {
-        setTimeout(() => {
-            setSuccess(false);
-        }, 3000); // 3 seconds
-    };
 
     return (
         <section className="bg-gray-50 dark:bg-gray-900">
@@ -102,7 +70,7 @@ export default function LoginForm() {
                         </h1>
                         <form
                             className="space-y-4 md:space-y-6"
-                            onSubmit={registerValidation}
+                            onSubmit={handleLogin}
                         >
                             <div>
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
@@ -111,8 +79,7 @@ export default function LoginForm() {
                                     name="email"
                                     id="email"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com"
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    value={email}
+                                    {...email}
                                 />
                             </div>
                             <div>
@@ -123,8 +90,7 @@ export default function LoginForm() {
                                     id="password"
                                     placeholder="••••••••"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    value={password}
+                                    {...password}
                                 />
                             </div>
                             <div className="flex items-center justify-between">
@@ -145,11 +111,6 @@ export default function LoginForm() {
                             {error && (
                                 <p className="bg-red-500 font-bold rounded-lg px-5 py-3 text-center text-white">
                                     {errorMessage}
-                                </p>
-                            )}
-                            {success && (
-                                <p className="bg-green-500 font-bold rounded-lg px-5 py-3 text-center text-white">
-                                    Logged in successful! 🎉
                                 </p>
                             )}
                         </form>

@@ -1,31 +1,26 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router"
-import axios from "axios";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import { UserContext } from "../../context/UserContext";
 
 export const Profile = () => {
     const navigate = useNavigate();
 
-    const [user, setUser] = useState(null);
+    const { user, fetchProfile } = useContext(UserContext);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
+        const fetchUserData = async () => {
+            const token = localStorage.getItem("token");
 
-        const getData = async () => {
+            if (!token) {
+                alert("Token no encontrado. Por favor, inicia sesión.");
+                navigate("/login");
+                return;
+            }
+
             try {
-                const res = await axios.get("http://localhost:5000/api/auth/me",
-                    {
-                        method: "GET",  //can erase the method, its already explicit in the axios
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${token}`
-                        },
-                        body: JSON.stringify({
-                            cart: carrito,
-                        })
-                    });
-                setUser(res.data);
+                await fetchProfile(); // Llama a la función de contexto para obtener el perfil
             } catch (error) {
                 if (error.response?.status === 401) {
                     alert("Acceso no válido. Por favor, inicia sesión.");
@@ -38,16 +33,22 @@ export const Profile = () => {
             }
         };
 
-        if (token) {
-            getData();
-        } else {
-            alert("Token no encontrado. Por favor, inicia sesión.");
-            navigate("/login");
-        }
-    }, [navigate]);
+        fetchUserData();
+    }, [navigate, fetchProfile]);
 
-    if (loading)
-        return <LoadingSpinner />
+    if (loading) {
+        return <LoadingSpinner />;
+    }
+
+    if (!user) {
+        return (
+            <div className="flex items-center justify-center h-screen">
+                <p className="text-lg font-semibold text-red-600">
+                    No se pudo cargar el perfil del usuario.
+                </p>
+            </div>
+        );
+    }
 
     return (
         <div className="relative flex flex-col min-h-screen w-full min-w-0 mb-6 break-words border border-dashed bg-clip-border rounded-2xl border-stone-200 bg-light/30 draggable">
@@ -67,7 +68,7 @@ export const Profile = () => {
                         <div className="flex flex-wrap items-start justify-between mb-2">
                             <div className="flex flex-col">
                                 <div className="flex items-center mb-2">
-                                    <a className="text-secondary-inverse hover:text-blue transition-colors duration-200 ease-in-out font-semibold text-[1.5rem] mr-1" href="javascript:void(0)"> Alec Jhonson </a>
+                                    <a className="text-secondary-inverse hover:text-blue transition-colors duration-200 ease-in-out font-semibold text-[1.5rem] mr-1" href="javascript:void(0)"> {user.email || "User"} </a>
                                 </div>
                                 <div className="flex flex-wrap pr-2 mb-4 font-medium">
                                     <a className="flex items-center mb-2 mr-5 text-secondary-dark hover:text-blue" href="javascript:void(0)">

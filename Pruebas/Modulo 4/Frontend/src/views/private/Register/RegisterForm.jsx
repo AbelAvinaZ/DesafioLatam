@@ -1,9 +1,17 @@
-import { useState } from 'react';
-import { Link } from 'react-router';
+import { useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router';
 import UseInput from "../../../hooks/UseInput"
+import { UserContext } from '../../../context/UserContext';
 
 
 export default function RegisterForm() {
+
+    //navigate hook
+    const navigate = useNavigate();
+
+    //register from usercontext
+    const { register } = useContext(UserContext);
+
     // custom hook to manage inputs
     const email = UseInput("");
     const password = UseInput("");
@@ -12,10 +20,10 @@ export default function RegisterForm() {
     //error and success state
     const [error, setError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-    const [success, setSuccess] = useState(false);
+
 
     // Function to validate form before submitting
-    const registerValidation = (e) => {
+    const handleRegister = async (e) => {
         e.preventDefault();
 
         // Validate fields
@@ -35,26 +43,22 @@ export default function RegisterForm() {
         }
 
         // Validate password match
-        if (password !== passwordConfirmation) {
+        if (password.value !== passwordConfirmation.value) {
             setError(true);
             setErrorMessage("Passwords do not match! 🚫");
             hideErrorAfterDelay();
             return;
         }
 
-        // If all validations pass
-        setSuccess(true);
-        setError(false);
-        console.log("Form submitted successfully!");
-        clearForm(); // Optionally clear the form after success
-        hideSuccessAfterDelay();
-    };
-
-    // Function to clear form fields
-    const clearForm = () => {
-        email.onChange({ target: { value: "" } });
-        password.onChange({ target: { value: "" } });
-        passwordConfirmation.onChange({ target: { value: "" } });
+        try {
+            await register(email.value, password.value);
+            navigate("/login");
+        } catch (e) {
+            setError(true);
+            setErrorMessage("Registration failed. Please try again.");
+            hideErrorAfterDelay();
+            console.error(e);
+        }
     };
 
     // Function to hide error after a delay
@@ -65,12 +69,6 @@ export default function RegisterForm() {
         }, 3000);
     };
 
-    // Function to hide success message after a delay
-    const hideSuccessAfterDelay = () => {
-        setTimeout(() => {
-            setSuccess(false);
-        }, 3000);
-    };
 
     return (
         <section className="bg-gray-50 dark:bg-gray-900">
@@ -82,7 +80,7 @@ export default function RegisterForm() {
                         </h1>
                         <form
                             className="space-y-4 md:space-y-6"
-                            onSubmit={registerValidation}
+                            onSubmit={handleRegister}
                         >
                             <div>
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -130,11 +128,6 @@ export default function RegisterForm() {
                             {error && (
                                 <p className="bg-red-500 font-bold rounded-lg px-5 py-3 text-center text-white">
                                     {errorMessage}
-                                </p>
-                            )}
-                            {success && (
-                                <p className="bg-green-500 font-bold rounded-lg px-5 py-3 text-center text-white">
-                                    Registration successful! 🎉
                                 </p>
                             )}
                         </form>

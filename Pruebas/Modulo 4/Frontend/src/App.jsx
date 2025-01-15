@@ -9,13 +9,13 @@ function App() {
   const AppRoutes = () => useRoutes(Routes());
 
   return (
-    <UserProvider>
-      <PizzaProvider>
-        <CartProvider>
+    <CartProvider>
+      <UserProvider>
+        <PizzaProvider>
           <AppRoutes />
-        </CartProvider>
-      </PizzaProvider>
-    </UserProvider>
+        </PizzaProvider>
+      </UserProvider>
+    </CartProvider>
   );
 }
 
