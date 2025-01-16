@@ -32,7 +32,7 @@ export default function PizzeriaNavbar() {
                         >
                             Home 🍕
                         </Link>
-                        {user ?
+                        {user ? (
                             <>
                                 <Link
                                     to="/profile"
@@ -41,15 +41,14 @@ export default function PizzeriaNavbar() {
                                     Profile 🙍
 
                                 </Link>
-                                <Link
-                                    to="/login"
+                                <button
                                     className="text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
                                     onClick={logout}
                                 >
                                     Logout 🔐
-                                </Link>
+                                </button>
                             </>
-                            :
+                        ) : (
                             <>
                                 <Link
                                     to="/register"
@@ -65,6 +64,7 @@ export default function PizzeriaNavbar() {
                                     Login 🔐
                                 </Link>
                             </>
+                        )
                         }
                     </div>
                     <div className="flex items-center">
@@ -74,13 +74,6 @@ export default function PizzeriaNavbar() {
                         >
                             🛒 Total: ${formattedTotal(total)}
                         </Link>
-                        {/* boton creado para habilitar el token y poder demostrar la funcion del usercontext
-                        <button
-                            className="border border-white rounded-md bg-gray-700 p-1 mx-10 text-white font-semibold"
-                            onClick={toggleToken}
-                        >
-                            Token: {user ? "On" : "Off"}
-                        </button> */}
                     </div>
                 </div>
             </div>

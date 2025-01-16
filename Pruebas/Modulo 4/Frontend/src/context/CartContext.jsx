@@ -58,7 +58,7 @@ const CartProvider = ({ children }) => {
 
     // guardar carrito para la sesion
     const saveCartForUser = (email) => {
-        if (email) {
+        if (typeof email === "string" && email.trim() !== "") {
             localStorage.setItem(`cart_${email}`, JSON.stringify(pizzaCart));
         }
     };

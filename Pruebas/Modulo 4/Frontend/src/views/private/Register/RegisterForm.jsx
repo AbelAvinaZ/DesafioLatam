@@ -27,7 +27,7 @@ export default function RegisterForm() {
         e.preventDefault();
 
         // Validate fields
-        if (!email.trim() || !password.trim() || !passwordConfirmation.trim()) {
+        if (!email.value.trim() || !password.value.trim() || !passwordConfirmation.value.trim()) {
             setError(true);
             setErrorMessage("All fields are obligatory! 🚫");
             hideErrorAfterDelay();
@@ -35,7 +35,7 @@ export default function RegisterForm() {
         }
 
         // Validate password length
-        if (password.length < 6) {
+        if (password.value.length < 6) {
             setError(true);
             setErrorMessage("Password needs to be at least 6 characters long!");
             hideErrorAfterDelay();
@@ -52,12 +52,12 @@ export default function RegisterForm() {
 
         try {
             await register(email.value, password.value);
-            navigate("/login");
+            navigate("/profile");
         } catch (e) {
             setError(true);
-            setErrorMessage("Registration failed. Please try again.");
+            setErrorMessage(e.response?.data?.error || "Registration failed. Please try again.");
             hideErrorAfterDelay();
-            console.error(e);
+            console.error("Error during registration:", e);
         }
     };
 

@@ -18,6 +18,11 @@ export const Cart = () => {
         const token = localStorage.getItem("token");
         if (!token) return alert("Please login to checkout.");
 
+        if (!user?.email) {
+            console.error("No email found for the user.");
+            return alert("User email is missing. Please log in again.");
+        }
+
         try {
             const res = await axios.post(
                 "http://localhost:5000/api/checkouts",
@@ -33,7 +38,6 @@ export const Cart = () => {
             if (res.status === 200) {
                 setIsSuccessModalVisible(true); // Muestra el modal en caso de éxito
                 clearCart(); //if you proceed, it will clean the cart
-                localStorage.removeItem(`cart_${user.email}`); //same but from the session
             }
         } catch (e) {
             console.error("Error en el checkout:", e);

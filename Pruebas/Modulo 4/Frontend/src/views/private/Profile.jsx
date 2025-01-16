@@ -6,7 +6,7 @@ import { UserContext } from "../../context/UserContext";
 export const Profile = () => {
     const navigate = useNavigate();
 
-    const { user, fetchProfile } = useContext(UserContext);
+    const { user, fetchProfile, logout } = useContext(UserContext);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -15,6 +15,7 @@ export const Profile = () => {
 
             if (!token) {
                 alert("Token no encontrado. Por favor, inicia sesión.");
+                logout();
                 navigate("/login");
                 return;
             }
@@ -24,6 +25,7 @@ export const Profile = () => {
             } catch (error) {
                 if (error.response?.status === 401) {
                     alert("Acceso no válido. Por favor, inicia sesión.");
+                    logout();
                     navigate("/login");
                 } else {
                     console.error("Error al obtener los datos del usuario:", error);
@@ -34,7 +36,7 @@ export const Profile = () => {
         };
 
         fetchUserData();
-    }, [navigate, fetchProfile]);
+    }, [navigate, fetchProfile, logout]);
 
     if (loading) {
         return <LoadingSpinner />;
