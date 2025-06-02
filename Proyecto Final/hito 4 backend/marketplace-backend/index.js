@@ -13,7 +13,7 @@ const app = express();
 // Permitir múltiples orígenes para desarrollo y producción
 const allowedOrigins = [
     "http://localhost:5173",
-    process.env.FRONTEND_URL || "https://mi-marketplace.netlify.app", // Actualiza con tu URL de Netlify
+    process.env.FRONTEND_URL,
 ];
 
 app.use(
